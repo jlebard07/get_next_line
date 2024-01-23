@@ -6,11 +6,30 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 14:12:01 by jlebard           #+#    #+#             */
-/*   Updated: 2024/01/10 14:13:06 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/01/23 11:30:02 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strjoin(char const *s1, char const *s2)
+#include "get_next_line.h"
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*ptr;
+	unsigned char	temp;
+
+	ptr = s;
+	temp = (unsigned char)c;
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = temp;
+		i++;
+	}
+	return (s);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*dest;
 	size_t	i;
@@ -39,26 +58,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (dest);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = (ft_strlen(src));
-	if (size != 0)
-	{
-		while (src[i] && i < size - 1)
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (j);
-}
-
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(char *str)
 {
 	int	i;
 
@@ -66,4 +66,37 @@ size_t	ft_strlen(const char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
+}
+
+void	*ft_calloc(size_t n, size_t size)
+{
+	void	*dest;
+
+	if (n == 0 || size == 0)
+		return (malloc(0));
+	if (SIZE_MAX / n < size)
+		return (NULL);
+	dest = malloc(n * size);
+	if (!dest)
+		return (NULL);
+	ft_memset(dest, 0, n * size);
+	return (dest);
+}
+
+char	*ft_strchr(char	*s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (s[i] == c)
+		return ((char *)&s[i]);
+	return (NULL);
 }
