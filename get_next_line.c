@@ -31,10 +31,11 @@ char	*ft_read(int fd, char *dest)
 		}
 		temp[i] = '\0';
 		dest = ft_strjoin(dest, temp);
-		free(temp);
 		if (ft_strchr(temp, 10) != NULL)
 			break ;
+		free(temp);
 	}
+	free(temp);
 	return (dest);
 }
 
@@ -60,8 +61,11 @@ char	*ft_get_line(char *buffer)
 		dest[i + 1] = '\0';
 	}
 	i = 0;
-	while (buffer[i++] && buffer [i] != '\n')
+	while (buffer[i] && buffer [i] != '\n')
+	{
 		dest[i] = buffer[i];
+		i++;
+	}
 	return (dest);
 }
 
@@ -79,6 +83,7 @@ char	*ft_next(char *buffer)
 	i += 1;
 	while (buffer[i])
 		dest[j++] = buffer[i++];
+	dest[j] = '\0';
 	free(buffer);
 	return (dest);
 }
