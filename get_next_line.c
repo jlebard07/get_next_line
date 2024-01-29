@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 11:40:03 by jlebard           #+#    #+#             */
-/*   Updated: 2024/01/29 12:32:52 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/01/29 14:43:45 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char	*get_next_line(int fd)
 	static char		*buffer;
 	char			*line;
 
+	buffer = NULL;
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (0);
 	buffer = ft_read(fd, buffer);
