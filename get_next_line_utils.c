@@ -6,28 +6,11 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 14:12:01 by jlebard           #+#    #+#             */
-/*   Updated: 2024/01/24 14:27:53 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/01/29 11:47:14 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-void	*ft_memset(void *s, int c, size_t n)
-{
-	size_t			i;
-	unsigned char	*ptr;
-	unsigned char	temp;
-
-	ptr = s;
-	temp = (unsigned char)c;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = temp;
-		i++;
-	}
-	return (s);
-}
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -58,6 +41,24 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (dest1);
 }
 
+char	*ft_strdup(char *s)
+{
+	char	*dest;
+	int		i;
+
+	i = 0;
+	dest = malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!dest)
+		return (NULL);
+	while (s[i])
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 size_t	ft_strlen(char *str)
 {
 	int	i;
@@ -66,21 +67,6 @@ size_t	ft_strlen(char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
-}
-
-void	*ft_calloc(size_t n, size_t size)
-{
-	void	*dest;
-
-	if (n == 0 || size == 0)
-		return (malloc(0));
-	if (SIZE_MAX / n < size)
-		return (NULL);
-	dest = malloc(n * size);
-	if (!dest)
-		return (NULL);
-	ft_memset(dest, 0, n * size);
-	return (dest);
 }
 
 char	*ft_strchr(char	*s, int c)
