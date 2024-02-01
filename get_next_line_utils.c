@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 14:12:01 by jlebard           #+#    #+#             */
-/*   Updated: 2024/01/29 14:43:11 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/02/01 10:09:52 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,35 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (dest1);
 }
 
-char	*ft_strdup(char *s)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*dest;
-	int		i;
+	size_t			i;
+	unsigned char	*ptr;
+	unsigned char	temp;
 
+	ptr = s;
+	temp = (unsigned char)c;
 	i = 0;
-	dest = malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!dest)
-		return (NULL);
-	while (s[i])
+	while (i < n)
 	{
-		dest[i] = s[i];
+		ptr[i] = temp;
 		i++;
 	}
-	dest[i] = '\0';
+	return (s);
+}
+
+void	*ft_calloc(size_t n, size_t size)
+{
+	void	*dest;
+
+	if (n == 0 || size == 0)
+		return (malloc(0));
+	if (SIZE_MAX / n < size)
+		return (NULL);
+	dest = malloc(n * size);
+	if (!dest)
+		return (NULL);
+	ft_memset(dest, 0, n * size);
 	return (dest);
 }
 

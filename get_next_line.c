@@ -6,22 +6,31 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 11:40:03 by jlebard           #+#    #+#             */
-/*   Updated: 2024/01/29 14:43:45 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/02/01 10:14:06 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_free(char *dest, char *buffer)
+{
+	char	*temp;
+
+	temp = ft_strjoin(dest, buffer);
+	free(dest);
+	return (temp);
+}
+
 char	*ft_read(int fd, char *dest)
 {
 	char	*temp;
-	ssize_t	i;
+	int		i;
 
-	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!temp)
-		return (NULL);
+	if (!dest)
+		dest = ft_calloc(1, 1);
+	temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	i = 1;
-	while (!ft_strchr(dest, 10) && i > 0)
+	while (i > 0)
 	{
 		i = read(fd, temp, BUFFER_SIZE);
 		if (i < 0)
@@ -30,7 +39,9 @@ char	*ft_read(int fd, char *dest)
 			return (NULL);
 		}
 		temp[i] = '\0';
-		dest = ft_strjoin(dest, temp);
+		dest = ft_free(dest, temp);
+		if (ft_strchr(temp, 10) != NULL)
+			break ;
 	}
 	free(temp);
 	return (dest);
@@ -46,9 +57,8 @@ char	*ft_get_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	dest = malloc((i + 2) * sizeof(char));
-	if (!dest)
-		return (NULL);
+	dest = ft_calloc((i + 2), sizeof(char));
+	i = 0;
 	while (buffer[i] && buffer [i] != '\n')
 	{
 		dest[i] = buffer[i];
@@ -56,10 +66,9 @@ char	*ft_get_line(char *buffer)
 	}
 	if (buffer[i] == '\n')
 	{
-		dest[i] = buffer[i];
+		dest[i] = 10;
 		i++;
 	}
-	dest[i] = '\0';
 	return (dest);
 }
 
@@ -78,9 +87,7 @@ char	*ft_next(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	dest = malloc((ft_strlen(buffer) - i + 1) * sizeof(char));
-	if (!dest)
-		return (NULL);
+	dest = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
 	i++;
 	while (buffer[i])
 		dest[j++] = buffer[i++];
@@ -94,9 +101,8 @@ char	*get_next_line(int fd)
 	static char		*buffer;
 	char			*line;
 
-	buffer = NULL;
-	if (fd < 0 || BUFFER_SIZE < 0)
-		return (0);
+	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
+		return (NULL);
 	buffer = ft_read(fd, buffer);
 	if (!buffer)
 		return (NULL);
