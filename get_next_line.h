@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 11:29:40 by jlebard           #+#    #+#             */
-/*   Updated: 2024/02/01 10:09:53 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/03/11 13:11:49 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <fcntl.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 2
+# endif
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);

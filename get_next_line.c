@@ -6,7 +6,7 @@
 /*   By: jlebard <jlebard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 11:40:03 by jlebard           #+#    #+#             */
-/*   Updated: 2024/02/01 10:14:06 by jlebard          ###   ########.fr       */
+/*   Updated: 2024/04/02 13:22:37 by jlebard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_free(char *dest, char *buffer)
 	char	*temp;
 
 	temp = ft_strjoin(dest, buffer);
+	if (!temp)
+		return (NULL);
 	free(dest);
 	return (temp);
 }
@@ -27,23 +29,24 @@ char	*ft_read(int fd, char *dest)
 	int		i;
 
 	if (!dest)
-		dest = ft_calloc(1, 1);
+		dest = ft_calloc(1, sizeof(char));
+	if (!dest)
+		return (NULL);
 	temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!temp)
+		return (NULL);
 	i = 1;
 	while (i > 0)
 	{
 		i = read(fd, temp, BUFFER_SIZE);
-		if (i < 0)
-		{
-			free(temp);
+		if (i < 0 && (free(temp), 1))
 			return (NULL);
-		}
 		temp[i] = '\0';
 		dest = ft_free(dest, temp);
 		if (ft_strchr(temp, 10) != NULL)
 			break ;
 	}
-	free(temp);
+	free (temp);
 	return (dest);
 }
 
@@ -57,7 +60,9 @@ char	*ft_get_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	dest = ft_calloc((i + 2), sizeof(char));
+	dest = ft_calloc(i + 2, sizeof(char));
+	if (!dest)
+		return (NULL);
 	i = 0;
 	while (buffer[i] && buffer [i] != '\n')
 	{
@@ -88,6 +93,8 @@ char	*ft_next(char *buffer)
 		return (NULL);
 	}
 	dest = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
+	if (!dest)
+		return (NULL);
 	i++;
 	while (buffer[i])
 		dest[j++] = buffer[i++];
